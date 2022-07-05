@@ -3,8 +3,8 @@ let url = "http://localhost:3000/api/products"; // url de l'API
 fetch(url) //Requête vers API
   .then((response) => response.json()) //Récupération des données en format json
   .then((data) => {
-    console.table(data); //Résultats dans la console présentés dans un tableau
-    produitsKanaps(data); //Fonction affichage des produits
+    //console.table(data); //Résultats dans la console présentés dans un tableau
+    affichageGammeProduits(data); //Fonction affichage des produits du site
   })
   // Si données non récupérées, afficher erreur au niveau du h1 et dans la console
   .catch((err) => {
@@ -12,7 +12,7 @@ fetch(url) //Requête vers API
     console.log("erreur" + err);
   });
 
-function produitsKanaps(data) {
+function affichageGammeProduits(data) {
   let affichageProduits = document.querySelector("#items"); //variable ciblant la zone du DOM pour insertion
   //Boucle pour chaque produit du tableau résultat
   for (let produit of data) {
