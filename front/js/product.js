@@ -2,7 +2,6 @@
 
 const urlParams = new URLSearchParams(window.location.search); //On récupère l'URL de la page
 const id = urlParams.get("_id"); // on récupère ensuite la valeur de l'id.
-//console.log(id);
 
 fetch(`http://localhost:3000/api/products/${id}`) //Requête vers API
   .then((response) => response.json()) //Récupération des données en format json
@@ -59,7 +58,7 @@ function ajoutProduits() {
       return;
     } else {
       // Déclaration d'un objet qui sera stocké dans le localStorage
-      //let key = `${id}-${couleursProduit}`;
+
       let selectionArticle = {
         id: id,
         couleurs: couleursProduit,
@@ -110,7 +109,7 @@ function ajoutPanier(produit) {
     produitQuantite = parseInt(quantity.value);
     panier.push(produit);
   } else {
-    // Si la couleur du ce produit n'est pas encore de le panier
+    // Si la couleur de ce produit n'est pas encore dans le panier
     if (rechercheProduitCouleurs == undefined) {
       produitQuantite = parseInt(quantity.value);
       //On pousse le produit dans le tableau panier

@@ -1,7 +1,7 @@
 //On récupère l'URL de la page
 const urlParams = new URLSearchParams(window.location.search);
 // on récupère ensuite la valeur de l'id de commande.
-const idCommande = urlParams.get("idCommande");
+const idCommande = urlParams.get("id_commande");
 console.log(idCommande);
 
 //on cible la zone d'insertion au niveau du DOM

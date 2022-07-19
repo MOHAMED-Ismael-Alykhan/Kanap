@@ -18,10 +18,39 @@ function recuperationPanier() {
   }
 }
 
-/******************************************************************* */
+function remaniementPanier() {
+  //Déclaration de la variable ciblant la zone du DOM soit le changement de le quantité des articles au niveau de la page panier
+  let zoneArticlesQuantite = document.querySelectorAll(".itemQuantity");
+  //Déclaration de la variable ciblant la zone du DOM
+  let supprimeArticlesSelection = document.querySelectorAll(".deleteItem");
+  // boucle par rapport au nombre de "supprimer" par modèle de Kanap
+  for (let q = 0; q < supprimeArticlesSelection.length; q++) {
+    //Création d'un évenement au click sur "supprimer"
+    supprimeArticlesSelection[q].addEventListener("click", (e) => {
+      e.preventDefault;
+      //On supprime un élément du chariot à l'index q
+      chariot.splice(q, 1);
+      //On sauvegarde le nouveau panier
+      sauvegardePanier(chariot);
+      //On rafraichit la page
+      location.reload();
+    });
+    //Création d'un évenement au change sur "la quantité du produit"
+    zoneArticlesQuantite[q].addEventListener("change", () => {
+      // La quantité du produit est égal à la valeur de la quantité que l'on a choisi sur la page panier
+      chariot[q].quantite = parseInt(zoneArticlesQuantite[q].value);
+      // On sauvegarde le nouveau panier
+      sauvegardePanier(chariot);
+      //On rafraichit la page
+      location.reload();
+    });
+  }
+}
 
+/**********************************************************************/
+let prixTotal = 0;
 let chariot = recuperationPanier();
-//console.table(chariot);
+
 affichageProduitsPanier(chariot);
 
 async function affichageProduitsPanier(chariot) {
@@ -38,8 +67,6 @@ async function affichageProduitsPanier(chariot) {
       await fetch("http://localhost:3000/api/products/" + chariot[i].id)
         .then((response) => response.json()) //Récupération des données en format json
         .then((data) => {
-          //console.log(chariot[i].couleurs);
-
           let zoneArticlesPanier = document.querySelector("#cart__items");
           zoneArticlesPanier.innerHTML += `
 <article class="cart__item" data-id="${data._id}" data-color="${chariot[i].couleurs}">
@@ -66,22 +93,11 @@ async function affichageProduitsPanier(chariot) {
 
           remaniementPanier();
           recuperationNombreTotalProduit();
-          //recuperationPrixTotal();
-          //console.log(data.price);
 
           let zonePrixTotal = document.querySelector("#totalPrice");
-          //zonePrixTotal.textContent +=
-          //parseInt(chariot[i].quantite) * parseInt(data.price);
-          let prixTotal = 0;
           prixTotal += parseInt(chariot[i].quantite) * parseInt(data.price);
-          //prixTotal = parseInt(zonePrixTotal.textContent);
-          zonePrixTotal.textContent += parseInt(prixTotal);
-          console.log(typeof parseInt(zonePrixTotal.textContent));
-
-          //return prixTotal;
+          zonePrixTotal.textContent = parseInt(prixTotal);
           return data;
-
-          // Si données non récupérées, afficher erreur au niveau du h1 et dans la console
         })
         .catch((err) => {
           console.log("erreur" + err);
@@ -90,7 +106,7 @@ async function affichageProduitsPanier(chariot) {
   }
 }
 
-/********** CALCUlS QUANTITE ET PRIX TOTAL ****************/
+/************************* CALCUlS QUANTITE *****************************/
 
 //Création d'une fonction pour récupérer le nombre total des produits du Panier
 function recuperationNombreTotalProduit() {
@@ -100,78 +116,15 @@ function recuperationNombreTotalProduit() {
   let nombre = 0;
   for (let produit of chariot) {
     nombre += parseInt(produit.quantite);
-    //console.log(nombre);
   }
   let zoneNombreArticlesTotal = document.querySelector("#totalQuantity");
   zoneNombreArticlesTotal.textContent = parseInt(nombre);
   return nombre;
 }
 
-//Création d'une fonction pour récupérer le prix total du Panier
-/*function recuperationPrixTotal(data) {
-  //On récupère d'abord le Panier
-
-  let chariot = recuperationPanier();
-  let prixTotal = 0;
-
-  for (let produit of chariot) {
-    prixTotal += parseInt(produit.quantite) * parseInt(data.price);
-  }
-
-  let zonePrixTotal = document.querySelector("#totalPrice");
-  zonePrixTotal.textContent = parseInt(prixTotal);
-
-  return prixTotal;
-}*/
-
-function remaniementPanier() {
-  //Déclaration de la variable ciblant la zone du DOM soit le changement de le quantité des articles au niveau de la page panier
-  let zoneArticlesQuantite = document.querySelectorAll(".itemQuantity");
-  //Déclaration de la variable ciblant la zone du DOM
-  let supprimeArticlesSelection = document.querySelectorAll(".deleteItem");
-  // boucle par rapport au nombre de "supprimer" par modèle de Kanap
-  for (let q = 0; q < supprimeArticlesSelection.length; q++) {
-    //Création d'un évenement au click sur "supprimer"
-    supprimeArticlesSelection[q].addEventListener("click", (e) => {
-      e.preventDefault;
-      //On supprime un élément du chariot à l'index q
-      chariot.splice(q, 1);
-      //On sauvegarde le nouveau panier
-      sauvegardePanier(chariot);
-      //On rafraichit la page
-      location.reload();
-    });
-    //Création d'un évenement au change sur "la quantité du produit"
-    zoneArticlesQuantite[q].addEventListener("change", () => {
-      // La quantité du produit est égal à la valeur de la quantité que l'on a choisi sur la page panier
-      chariot[q].quantite = zoneArticlesQuantite[q].value;
-      // On sauvegarde le nouveau panier
-      sauvegardePanier(chariot);
-      //On rafraichit la page
-      location.reload();
-    });
-  }
-}
-
-/*
-remaniementPanier();
-let totalPrix = 0;
-totalPrix += data.price * chariot[i].quantite;
-let totalArticle = 0;
-totalArticle += parseInt(chariot[i].quantite);
-
-let totalPrice = document.querySelector("#totalPrice");
-totalPrice.innerHTML = `
-                ${totalPrix}
-                `;
-let totalQuantity = document.querySelector("#totalQuantity");
-totalQuantity.innerHTML = `
-                ${totalArticle}
-                `;*/
-
-/************************************************************************/
-
-/**************************** METHODE ***************************** */
+/**********************************************************************/
+/*                            FORMULAIRE                              */
+/******************************************************************** */
 
 let formulaire = document.querySelector("#order");
 //On écoute le soumission du Formulaire
@@ -273,7 +226,6 @@ formulaire.addEventListener("click", (e) => {
     },
     products: idProduit,
   };
-  //console.log(commande);
 
   /****************** CONDITION POUR L'ENVOI DU FORMULAIRE *****************/
 
@@ -289,7 +241,7 @@ formulaire.addEventListener("click", (e) => {
       .then((data) => {
         console.log(data);
 
-        window.location.href = `./confirmation.html?idCommande=${data.orderId}`;
+        window.location.href = `./confirmation.html?id_commande=${data.orderId}`;
       })
       .catch((err) => {
         console.log("erreur" + err);
