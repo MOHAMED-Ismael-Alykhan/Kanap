@@ -15,7 +15,7 @@ function affichageGammeProduits(data) {
   let affichageProduits = document.querySelector("#items"); //variable ciblant la zone du DOM pour insertion
   //Boucle pour chaque produit du tableau résultat
   for (let produit of data) {
-    //affichage de chaque produit dans la zone du DOM définit précedemment en fonction de son: id, imageUrl, altTxt, name, description
+    //affichage de chaque produit dans la zone du DOM définie précedemment en fonction de son: id, imageUrl, altTxt, name, description
     affichageProduits.innerHTML += `<a href="./product.html?_id=${produit._id}">
     <article>
       <img src="${produit.imageUrl}" alt="${produit.altTxt}">

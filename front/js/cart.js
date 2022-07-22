@@ -27,7 +27,6 @@ function remaniementPanier() {
   for (let q = 0; q < supprimeArticlesSelection.length; q++) {
     //Création d'un évenement au click sur "supprimer"
     supprimeArticlesSelection[q].addEventListener("click", (e) => {
-      e.preventDefault;
       //On supprime un élément du chariot à l'index q
       chariot.splice(q, 1);
       //On sauvegarde le nouveau panier
@@ -37,7 +36,7 @@ function remaniementPanier() {
     });
     //Création d'un évenement au change sur "la quantité du produit"
     zoneArticlesQuantite[q].addEventListener("change", () => {
-      // La quantité du produit est égal à la valeur de la quantité que l'on a choisi sur la page panier
+      // La quantité du produit est égale à la valeur de la quantité que l'on a choisi sur la page panier
       chariot[q].quantite = parseInt(zoneArticlesQuantite[q].value);
       // On sauvegarde le nouveau panier
       sauvegardePanier(chariot);
@@ -47,7 +46,10 @@ function remaniementPanier() {
   }
 }
 
-/**********************************************************************/
+/**************************************************************************/
+/*                        AFFICHAGE DU PANIER                             */
+/**************************************************************************/
+
 let prixTotal = 0;
 let chariot = recuperationPanier();
 
@@ -129,8 +131,6 @@ function recuperationNombreTotalProduit() {
 let formulaire = document.querySelector("#order");
 //On écoute le soumission du Formulaire
 formulaire.addEventListener("click", (e) => {
-  e.preventDefault();
-
   let validationCouleur = `rgb(107, 205, 39)`;
   let nonValidationCouleur = `rgb(241,17,1)`;
 
@@ -151,15 +151,15 @@ formulaire.addEventListener("click", (e) => {
   /******************* VERIFICATION DU NOM *************************/
 
   //Création de la regexp pour la validation du nom
-  let nomRegExp = new RegExp(`^[a-zA-Z- ]{2,31}$`, `g`);
+  let nomRegExp = new RegExp(`^[a-zA-Z- ]{2,32}$`, `g`);
   //On test la regexp nom
   let testNom = nomRegExp.test(lastName.value);
   if (testNom === true) {
     lastNameErrorMsg.textContent = "";
     lastName.style.backgroundColor = validationCouleur;
   } else {
-    lasttNameErrorMsg.textContent = "Le nom n'est pas valide";
-    lasttName.style.backgroundColor = nonValidationCouleur;
+    lastNameErrorMsg.textContent = "Le nom n'est pas valide";
+    lastName.style.backgroundColor = nonValidationCouleur;
   }
 
   /******************* VERIFICATION DE L' ADRESSE *********************/

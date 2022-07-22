@@ -9,7 +9,7 @@ const zoneIdCommande = document.querySelector("#orderId");
 
 zoneIdCommande.textContent = idCommande;
 
-//On efface le localStorage une fois la commande validée avec l'affige de l'id de commande
+//On efface le localStorage une fois la commande validée avec l'affichage de l'id de commande
 function effaceLocalStorage() {
   const cache = window.localStorage;
   cache.clear();
