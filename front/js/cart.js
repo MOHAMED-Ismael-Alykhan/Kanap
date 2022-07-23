@@ -131,6 +131,7 @@ function recuperationNombreTotalProduit() {
 let formulaire = document.querySelector("#order");
 //On écoute le soumission du Formulaire
 formulaire.addEventListener("click", (e) => {
+  e.preventDefault();
   let validationCouleur = `rgb(107, 205, 39)`;
   let nonValidationCouleur = `rgb(241,17,1)`;
 
